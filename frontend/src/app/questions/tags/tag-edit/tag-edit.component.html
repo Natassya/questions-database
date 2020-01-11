@@ -1,0 +1,32 @@
+<div class="card card-outline-secondary">
+  <div class="card-header">
+      <h3 class="mb-0">Tag</h3>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-xs-12 form-inline">
+          <label for="type">Tipo: </label>
+          <select class="form-control" id="type" formControlName="type">
+            <option>Disciplina</option>
+            <option>Conteúdo</option>
+          </select>
+          <label for="description">Descrição: </label>
+          <input
+            type="text"
+            id="description"
+            class="form-control"
+            formControlName="description">
+          <div class="btn-group mr-2" role="group">
+            <button class="btn btn-primary" [disabled]="!form.valid" (click)="onSubmit()">
+              <i class="fa fa-save fa-fw"></i>
+            </button>
+            <button class="btn btn-danger" [disabled]="!editMode" (click)="onDelete()">
+              <i class="fa fa-trash fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

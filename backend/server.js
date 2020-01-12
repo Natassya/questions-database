@@ -37,10 +37,13 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Set up routes
 var tag = require('./routes/tag');
+var question = require('./routes/question');
 var routes = require('./routes/index');
 
 app.use('/', routes);
 app.use('/tag', tag);
+app.use('/question', question);
+
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

@@ -1,34 +1,48 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 import { Question } from './question.model';
-import { Subquestion } from './subquestion.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionService {
-  questions: Array<Question> = [new Question('Subjetiva simples', 'Exemplo de questao subjetiva.', 'Exemplo correto'),
-                    new Question('Subjetiva com subquestões', 'Exemplo de questao subjetiva com subquestões.', 'Exemplo correto', false, '', '', [new Subquestion('Opcao a'), new Subquestion('Opcao b')])];
 
-  constructor() { }
+  questionFetchURL = 'http://localhost:3000/question/';
+  questionGetURL = 'http://localhost:3000/question/id';
 
-  fetchQuestions() {
-    return this.questions.slice();
+  constructor(private http: HttpClient) { }
+
+  fetchQuestions(): Observable<Question[]> {
+    return this.http
+      .get<Question[]>(this.questionFetchURL);
   }
 
-  getQuestion(index: number) {
-    return this.questions[index];
+  getQuestion(id: string): Observable<Question> {
+    return this.http
+      .post<Question>(this.questionGetURL, {_id: id});
   }
 
-  addQuestion(question: Question) {
-    this.questions.push(question);
+  addQuestion(question: Question): Observable<Question> {
+    delete question._id;
+    console.log(question);
+    return this.http
+      .put<Question>(this.questionGetURL, question);
   }
 
-  updateQuestion(question: Question, index: number) {
-    this.questions[index] = question;
+  updateQuestion(question: Question, id: string) {
+    question._id = id;
+    return this.http
+      .put<Question>(this.questionGetURL, question);
   }
 
-  deleteQuestion(index: number) {
-    this.questions.splice(index, 1);
+  deleteQuestion(id: string): Observable<Question> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: {_id: id}
+    };
+    return this.http
+      .delete<Question>(this.questionGetURL, httpOptions);
   }
 
 }

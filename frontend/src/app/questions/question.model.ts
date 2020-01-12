@@ -4,6 +4,7 @@ import { Statement } from './statement.model';
 import { Tag } from './tags/tag.model'
 
 export class Question {
+  public _id: string;
   public type: string;
   public description: string;
   public answer: string;
